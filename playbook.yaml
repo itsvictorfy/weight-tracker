@@ -1,0 +1,39 @@
+- name: Create flask nginx webserver
+  hosts: webservers
+  remote_user: root
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - python3-pip
+          - python3-dev
+          - build-essential
+          - libssl-dev
+          - libffi-dev
+          - python3-setuptools
+          - python3-venv
+          - nginx
+        update_cache: yes
+        state: present
+      become: true
+
+- name: setup nxginx
+  hosts: webservers
+  tasks:
+    - name: create nginx conf
+      copy: src=/files/nginx.conf dest=/etc/nginx/sites-enabled/flask.conf
+    - name: remove default conf
+      file: path=/etc/nginx/sites-enabled/default state=absent
+    - name: start nginx
+      service: name=nginx state=started
+  
+- name: setup falsk
+  hosts: webservers
+  tasks:
+    - name: install flask
+      pip: name=flask
+    - name: copy code
+      copy: src=app.py dest=/opt/webapp
+    - name: start flask app
+      command: python3 /opt/webapp/app.py 
+
