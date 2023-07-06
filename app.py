@@ -97,7 +97,7 @@ def getData():
     name = request.form['name']
     weight = request.form['weight']
     date = request.form['date']
-    storeData(name, weight, date)
+    return storeData(name, weight, date)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)
