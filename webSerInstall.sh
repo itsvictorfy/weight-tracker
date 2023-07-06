@@ -1,9 +1,13 @@
 sudo apt-get install postgresql-client
+sudo apt install net-tools
 git clone https://github.com/itsvictorfy/flaskapp.git
 cd flaskapp
-apt-get update 
-apt-get -y install libpq-dev gcc
+sudo apt-get update
+sudo apt install python3-pip
+sudo apt install python3-virtualenv
+virtualenv flask
+cd flask
+source bin/activate
 pip install psycopg2
-pip3 install --upgrade pip
-pip3 install Flask
-python3 app.py
+pip install flask
+python3 ../app.py
