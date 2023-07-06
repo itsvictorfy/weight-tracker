@@ -1,0 +1,105 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+    "resourceGroupName": {
+		"type": "string",
+		"metadata": {
+			"description": "Victors-WeightTracler-rg"
+		}
+		},
+		"location": {
+		"type": "string",
+		"metadata": {
+			"description": "Location for the resource group."
+		},
+		"defaultValue": "central-europe1"
+		}
+	},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/disks",
+            "apiVersion": "2022-07-02",
+            "name": "[parameters('disk_DB_name')]",
+            "location": "westeurope",
+            "sku": {
+                "name": "StandardSSD_ZRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "creationData": {
+                    "createOption": "Empty"
+                },
+                "diskSizeGB": 4,
+                "diskIOPSReadWrite": 500,
+                "diskMBpsReadWrite": 60,
+                "encryption": {
+                    "type": "EncryptionAtRestWithPlatformKey"
+                },
+                "networkAccessPolicy": "AllowAll",
+                "publicNetworkAccess": "Enabled",
+                "diskState": "Unattached"
+            }
+        },
+		{
+            "name": "victors-weightracker-vn",
+            "type": "Microsoft.Network/virtualNetworks",
+            "location": "[parameters('location')]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroupName'))]"
+            ],
+            "tags": {
+                "displayName": "victors-weightracker-vn"
+            },
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "SSH",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_vm_gifts_yovel_db_nsg_name'), 'SSH')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "10.0.1.0/24",
+                            "destinationAddressPrefix": "10.0.2.0/24",
+                            "access": "Allow",
+                            "priority": 300,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('victors-weightracker-vnPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('victors-weightracker-vnSubnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('victors-weightracker-vnSubnet1Prefix')]"
+                        }
+                    },
+                    {
+                        "name": "[variables('victors-weightracker-vnSubnet2Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('victors-weightracker-vnSubnet2Prefix')]"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "variables": {
+        "victors-weightracker-vnPrefix": "10.0.0.0/16",
+        "victors-weightracker-vnSubnet1Name": "webserver-subnet",
+        "victors-weightracker-vnSubnet1Prefix": "10.0.0.0/24",
+        "victors-weightracker-vnSubnet2Name": "database-subnet",
+        "victors-weightracker-vnSubnet2Prefix": "10.0.1.0/24"
+    }
+}

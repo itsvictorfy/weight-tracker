@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworks_victor_WeightTracker_vn_name": {
+            "value": null
+        },
+        "virtualMachines_weightTracker_database_vm_name": {
+            "value": null
+        },
+        "virtualMachines_weightTracker_webserver_vm_name": {
+            "value": null
+        },
+        "networkInterfaces_weighttracker_database_vm579_name": {
+            "value": null
+        },
+        "networkInterfaces_weighttracker_webserver_vm636_name": {
+            "value": null
+        },
+        "publicIPAddresses_weightTracker_webserver_vm_ip_name": {
+            "value": null
+        },
+        "networkSecurityGroups_weightTracker_database_nsg_name": {
+            "value": null
+        },
+        "networkSecurityGroups_weightTracker_webserver_nsg_name": {
+            "value": null
+        }
+    }
+}
