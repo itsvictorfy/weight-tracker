@@ -1,5 +1,5 @@
 sudo apt-get install postgresql-client
-git clone
+git clone https://github.com/itsvictorfy/flaskapp.git
 cd flaskapp
 apt-get update 
 apt-get -y install libpq-dev gcc

@@ -18,3 +18,4 @@ ss -nlt >> *
 sudo sed -i "s/127\.0\.0\.1\/32/0.0.0.0\/0/" /etc/postgresql/12/main/pg_hba.conf
 sudo ufw allow 5432/tcp
 sudo service postgresql restart
+echo "Done"
