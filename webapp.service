@@ -1,0 +1,11 @@
+[Unit]
+Description=Web Flask App
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/sshuser/terraform/app.py
+Restart=always
+User=sshuser
+
+[Install]
+WantedBy=multi-user.target

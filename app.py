@@ -4,11 +4,11 @@ import psycopg2
 
 app = Flask(__name__)
 
-db_host = 'weightTracker-database-vm'
+db_host = '10.0.1.4'
 db_port = '5432'
 db_name = 'weightdb'
 db_user = 'postgres'
-db_password = 'admin'
+db_password = 'password'
 
 def storeData(name, weight, date):
     try:
@@ -21,7 +21,7 @@ def storeData(name, weight, date):
         )
 
         cursor = connection.cursor()
-        insert_query = "INSERT INTO weight (name, weight, date) VALUES (%s, %s, %s);"
+        insert_query = "INSERT INTO weight (name, weight, time) VALUES (%s, %s, %s);"
         cursor.execute(insert_query, (name, weight, date))
         connection.commit()
         cursor.close()
@@ -30,7 +30,7 @@ def storeData(name, weight, date):
         response = {
             'status': 'success',
             'name': name,
-            'age_value': weight,
+            'weight_value': weight,
             'time': date,
             'database_status': 'Data inserted successfully'
         }
@@ -64,13 +64,13 @@ def retrieve_data(name):
         if result:
             # Retrieve the relevant information from the database
             name = result[0]
-            age_value = result[1]
+            weight_val = result[1]
             time = result[2]
 
             response = {
                 'status': 'success',
                 'name': name,
-                'age_value': age_value,
+                'weight_value': weight_val,
                 'time': time
             }
         else:

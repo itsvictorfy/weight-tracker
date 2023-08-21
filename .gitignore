@@ -1,0 +1,7 @@
+.terraform.lock.hcl
+.terraform/*
+/234.old
+/terraform.*
+/.terraform.tfstate.lock.info
+/main.old
+/*.zip
